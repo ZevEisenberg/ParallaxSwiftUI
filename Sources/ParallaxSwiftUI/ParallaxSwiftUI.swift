@@ -3,14 +3,14 @@ import SwiftUI
 extension View {
     public func parallax(amount: CGFloat = 10, direction: ParallaxDirection = .both) -> some View {
         ParallaxView(
-            view: AnyView(self),
+            view: self,
             amount: amount,
             direction: direction
         )
     }
     public func parallax(minHorizontal: CGFloat = -10, maxHorizontal: CGFloat = 10, minVertical: CGFloat = -10, maxVertical: CGFloat = 10, direction: ParallaxDirection = .both) -> some View {
         ParallaxView(
-            view: AnyView(self),
+            view: self,
             minHorizontal: minHorizontal,
             maxHorizontal: maxHorizontal,
             minVertical: minVertical,
@@ -27,11 +27,11 @@ public enum ParallaxDirection {
 }
 
 /// A wrapper view to add a parallax effect to a SwiftUI view.
-struct ParallaxView: View {
-    
+struct ParallaxView<Content: View>: View {
+
     /// The view to apply the parallax too.
-    let view: AnyView
-    
+    let view: Content
+
     /// The amount of the parallax effect to be applied.
     let amount: CGFloat?
     
@@ -43,7 +43,7 @@ struct ParallaxView: View {
     
     let direction: ParallaxDirection
     
-    init(view: AnyView, minHorizontal: CGFloat = -10, maxHorizontal: CGFloat = 10, minVertical: CGFloat = -10, maxVertical: CGFloat = 10, amount: CGFloat? = nil, direction: ParallaxDirection) {
+    init(view: Content, minHorizontal: CGFloat = -10, maxHorizontal: CGFloat = 10, minVertical: CGFloat = -10, maxVertical: CGFloat = 10, amount: CGFloat? = nil, direction: ParallaxDirection) {
         self.view = view
         self.direction = direction
         
@@ -71,9 +71,9 @@ struct ParallaxView: View {
 }
 
 /// Converts SwiftUI view to UIKit controller.
-struct ParallaxRepresentable: UIViewControllerRepresentable {
-    
-    let view: AnyView
+struct ParallaxRepresentable<Content: View>: UIViewControllerRepresentable {
+
+    let view: Content
     let width: CGFloat
     let height: CGFloat
     
